@@ -34,10 +34,55 @@ public class UniversityStudent extends Student {
      */
     @Override
     public int calculateConnectionStrength(Student other) {
-        return 0;
-    }
-    // TODO: Constructor and additional methods to be implemented
+        /* Every student starts with a score of 100 */
+        int connectionStrength = 0;
 
+        /* The closer in age, the more connected*/
+        connectionStrength -= Math.abs(this.age - other.age) * 4;
+
+        /* More connected if same gender */
+        if (this.getGender().equals(other.getGender())) {
+            connectionStrength += 10;
+        }
+
+        /* More connected if same year */
+        connectionStrength -= Math.abs(this.year - other.year) * 4;
+
+        /* More connected if same major */
+        if (this.getMajor().equals(other.getMajor())) {
+            connectionStrength += 10;
+        }
+
+        /* More connected if GPA is within 0.5 of each other */
+        if (Math.abs(this.getGpa() - other.getGpa()) < 0.5) {
+            connectionStrength += 10;
+        }
+
+        /* More connected if the students are roommates */
+        if (other instanceof UniversityStudent) {
+            if (GaleShapley.isRoommates(this, (UniversityStudent) other)) {
+                connectionStrength += 15;
+            }
+        }
+
+        /* More connected if the students had the same previous internships */
+        List<String> thisInternships = this.getPreviousInternships();
+        List<String> otherInternships = other.getPreviousInternships();
+        for (String internship : thisInternships) {
+            if (otherInternships.contains(internship)) {
+                connectionStrength += 5;
+            }
+        }
+
+        return connectionStrength;
+    }
+
+
+    /**
+     * Extracts student data from a list of strings and creates a UniversityStudent object
+     * @param studentData the list of strings containing the student data in the format: Name, Age, Gender, Year, Major, GPA, RoommatePreferences, PreviousInternships
+     * @return a UniversityStudent object created from the student data, or null if the data is invalid
+     */
     public static UniversityStudent createStudentFromData(ArrayList<String> studentData) {
         /* Check for proper length */
         if (studentData.size() != 8) {

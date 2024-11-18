@@ -19,4 +19,52 @@ public abstract class Student {
      * @return The connection strength as integer
      */
     public abstract int calculateConnectionStrength(Student other);
+
+    /**
+     * Gets the name of the student
+     * @return the name of the student
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Gets the age of the student
+     * @return the age of the student
+     */
+    public String getGender() {
+        return gender;
+    }
+
+    /**
+     * Gets the major of the student
+     * @return the major of the student
+     */
+    public String getMajor() {
+        return major;
+    }
+
+    /**
+     * Gets the GPA of the student
+     * @return the GPA of the student
+     */
+    public double getGpa() {
+        return gpa;
+    }
+
+    /**
+     * Gets the previous internships of the student
+     * @return the previous internships of the student in a list
+     */
+    public List<String> getPreviousInternships() {
+        return previousInternships;
+    }
+
+    /**
+     * Checks if one student is equal to another student
+     * @return true if the students are equal, false otherwise (2 students are equal if they have the same name)
+     */
+    public boolean equals(Student other) {
+        return this.getName().equals(other.getName());
+    }
 }
