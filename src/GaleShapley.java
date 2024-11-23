@@ -10,7 +10,25 @@ public class GaleShapley {
      * @param students the list of students which have to be assigned
      */
     public static void assignRoommates(List<UniversityStudent> students) {
-
+        List<UniversityStudent> freeStudents = new ArrayList<>(students);
+        while (!freeStudents.isEmpty()) {
+            UniversityStudent student = freeStudents.get(0);
+            UniversityStudent preferredRoommate = student.getPreferredRoommate();
+            if (roommates.get(preferredRoommate) == null) {
+                roommates.put(student, preferredRoommate);
+                roommates.put(preferredRoommate, student);
+                freeStudents.remove(student);
+                freeStudents.remove(preferredRoommate);
+            } else {
+                UniversityStudent currentRoommate = roommates.get(preferredRoommate);
+                if (preferredRoommate.getPreference(currentRoommate) > preferredRoommate.getPreference(student)) {
+                    roommates.put(student, preferredRoommate);
+                    roommates.put(preferredRoommate, student);
+                    freeStudents.remove(student);
+                    freeStudents.add(currentRoommate);
+                }
+            }
+        }
     }
 
     /**

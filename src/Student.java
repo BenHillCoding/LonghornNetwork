@@ -67,4 +67,12 @@ public abstract class Student {
     public boolean equals(Student other) {
         return this.getName().equals(other.getName());
     }
+
+    /**
+     * Gets the age of the student
+     * @return the age of the student
+     */
+    protected int getAge() {
+        return age;
+    }
 }

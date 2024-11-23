@@ -4,12 +4,16 @@ import java.util.*;
  * ReferralPathFinder is a utility class that finds a referral path from a student to a target company
  */
 public class ReferralPathFinder {
+
+    private StudentGraph graph;
+
     /**
      * Constructs a ReferralPathFinder object based on the student connection information in the student graph
      * @param graph the student graph representing the connections between students
      */
     public ReferralPathFinder(StudentGraph graph) {
         // Constructor
+        this.graph = graph;
     }
 
     /**

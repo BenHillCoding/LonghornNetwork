@@ -38,30 +38,19 @@ public class UniversityStudent extends Student {
         int connectionStrength = 0;
 
         /* The closer in age, the more connected*/
-        connectionStrength -= Math.abs(this.age - other.age) * 4;
-
-        /* More connected if same gender */
-        if (this.getGender().equals(other.getGender())) {
-            connectionStrength += 10;
+        if (this.getAge() == other.getAge()) {
+            connectionStrength += 2;
         }
-
-        /* More connected if same year */
-        connectionStrength -= Math.abs(this.year - other.year) * 4;
 
         /* More connected if same major */
         if (this.getMajor().equals(other.getMajor())) {
-            connectionStrength += 10;
-        }
-
-        /* More connected if GPA is within 0.5 of each other */
-        if (Math.abs(this.getGpa() - other.getGpa()) < 0.5) {
-            connectionStrength += 10;
+            connectionStrength += 3;
         }
 
         /* More connected if the students are roommates */
         if (other instanceof UniversityStudent) {
             if (GaleShapley.isRoommates(this, (UniversityStudent) other)) {
-                connectionStrength += 15;
+                connectionStrength += 5;
             }
         }
 
@@ -70,7 +59,7 @@ public class UniversityStudent extends Student {
         List<String> otherInternships = other.getPreviousInternships();
         for (String internship : thisInternships) {
             if (otherInternships.contains(internship)) {
-                connectionStrength += 5;
+                connectionStrength += 4;
             }
         }
 
