@@ -75,4 +75,12 @@ public abstract class Student {
     protected int getAge() {
         return age;
     }
+
+    /**
+     * Gets the roommate preferences of the student
+     * @return List of strings containing the roommate preferences of the student
+     */
+    public List<String> getRoommatePreferences() {
+        return roommatePreferences;
+    }
 }

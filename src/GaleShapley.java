@@ -10,25 +10,53 @@ public class GaleShapley {
      * @param students the list of students which have to be assigned
      */
     public static void assignRoommates(List<UniversityStudent> students) {
-        List<UniversityStudent> freeStudents = new ArrayList<>(students);
+        /* Create a map for proposals count */
+        Map<UniversityStudent, Integer> proposalCount = new HashMap<>();
+        for (UniversityStudent student : students) {
+            proposalCount.put(student, 0);
+        }
+
+        /* Create a queue for free students */
+        List<UniversityStudent> freeStudents = new LinkedList<>(students);
+
         while (!freeStudents.isEmpty()) {
-            UniversityStudent student = freeStudents.get(0);
-            UniversityStudent preferredRoommate = student.getPreferredRoommate();
-            if (roommates.get(preferredRoommate) == null) {
-                roommates.put(student, preferredRoommate);
-                roommates.put(preferredRoommate, student);
-                freeStudents.remove(student);
-                freeStudents.remove(preferredRoommate);
+            UniversityStudent proposer = freeStudents.getFirst();
+            freeStudents.removeFirst();
+            List<String> preferences = proposer.roommatePreferences;
+            int count = proposalCount.get(proposer);
+
+            /* Propose to the next preferred roommate */
+            String preferredRoommateName = preferences.get(count);
+            UniversityStudent preferredRoommate = UniversityStudent.getStudentFromString(preferredRoommateName, students);
+            proposalCount.put(proposer, count + 1);
+            if (preferredRoommate == null) {
+                /* Preferred student is not part of the student list -> skip this student */
+                freeStudents.addFirst(proposer);
+                continue;
+            }
+
+            if (roommates.get(preferredRoommate) == proposer){
+                /* Do nothing, proposer is already paired with this student */
+            }else if (!roommates.containsKey(preferredRoommate)) {
+                /* The preferred roommate is free */
+                roommates.put(proposer, preferredRoommate);
+                roommates.put(preferredRoommate, proposer);
             } else {
+                /* The preferred roommate is already paired */
                 UniversityStudent currentRoommate = roommates.get(preferredRoommate);
-                if (preferredRoommate.getPreference(currentRoommate) > preferredRoommate.getPreference(student)) {
-                    roommates.put(student, preferredRoommate);
-                    roommates.put(preferredRoommate, student);
-                    freeStudents.remove(student);
-                    freeStudents.add(currentRoommate);
+
+                if (preferredRoommate.getRoommatePreferences().indexOf(proposer.getName()) < preferredRoommate.getRoommatePreferences().indexOf(currentRoommate.getName())) {
+                    /* The preferred roommate prefers the new proposer */
+                    roommates.put(preferredRoommate, proposer);
+                    roommates.put(proposer, preferredRoommate);
+                    freeStudents.addFirst(currentRoommate);
+                } else {
+                    /* The preferred roommate prefers their current roommate */
+                    freeStudents.addFirst(proposer);
                 }
             }
         }
+        System.out.println("Roommate assignment complete.");
     }
 
     /**

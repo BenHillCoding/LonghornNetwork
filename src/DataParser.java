@@ -31,16 +31,16 @@ public class DataParser {
 
         while(line != null){
             if (line.isEmpty() || line.isBlank()){
-                /* Add student with studentData to students list */
+                /* Add student with studentData to students list and clear student data */
                 UniversityStudent newStudent = UniversityStudent.createStudentFromData(studentData);
                 if (newStudent != null){
                     students.add(newStudent);
                 }else {
                     throw new IOException("Invalid student data in file: " + filename);
                 }
-                students.add(newStudent);
+                studentData.clear();
             }else if (line.equals("Student:")){
-                /* Prepare for new student */
+                /* Do nothing */
                 studentData.clear();
             }else{
                 /* Add line to studentData */
@@ -48,7 +48,15 @@ public class DataParser {
             }
             line = br.readLine();
         }
-
+        if (!studentData.isEmpty()){
+            /* Add last student with studentData to students list */
+            UniversityStudent newStudent = UniversityStudent.createStudentFromData(studentData);
+            if (newStudent != null){
+                students.add(newStudent);
+            }else {
+                throw new IOException("Invalid student data in file: " + filename);
+            }
+        }
         return students;
     }
 }

@@ -213,5 +213,20 @@ public class UniversityStudent extends Student {
         /* Create new UniversityStudent with the extracted data and return it */
         return new UniversityStudent(name, age, gender, year, major, gpa, roommatePreferences, previousInternships);
     }
+
+    /**
+     * Finds UniversityStudent object from name
+     * @param name Name of the university student
+     * @param students List of university students
+     * @return UniversityStudent object with the given name or null if not found
+     */
+    public static UniversityStudent getStudentFromString(String name, List<UniversityStudent> students){
+        for(UniversityStudent student : students){
+            if(student.getName().equals(name)){
+                return student;
+            }
+        }
+        return null;
+    }
 }
 
