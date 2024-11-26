@@ -5,7 +5,7 @@ import java.util.*;
  */
 public class PodFormation {
     /**
-Fin     * Constructor for a pod formation object, which stores the information about the student relations
+     * Constructor for a pod formation object, which stores the information about the student relations
      * @param graph the graph representing the connections between students
      */
     public PodFormation(StudentGraph graph) {
